@@ -1,0 +1,22 @@
+{
+  "environment": "",
+  "population": 100,
+  "runs": 100,
+  "pop_growth_model": "",
+  "plugins": [],
+  "agents": [{
+    "model_hash": "",
+    "version": "",
+    "name": "",
+    "reward_var": ""
+  }],
+  "agent_proportions": [{
+    "name": "",
+    "percentage": 0.5
+  }],
+  "meta_vars": [{
+    "name": "",
+    "type": "",
+    "range": ""
+  }]
+}
