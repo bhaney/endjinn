@@ -1,5 +1,7 @@
 def search_for_environment(env):
-    pass
+
+
+    return True
 
 
 def load_environment_files(env):

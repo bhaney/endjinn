@@ -6,17 +6,14 @@
   "plugins": [],
   "agents": [{
     "model_hash": "",
-    "version": "",
     "name": "",
-    "reward_var": ""
-  }],
-  "agent_proportions": [{
-    "name": "",
-    "percentage": 0.5
+    "reward_var": "",
+    "pop_percentage": null
   }],
   "meta_vars": [{
     "name": "",
     "type": "",
-    "range": ""
+    "range": "",
+    "set": [""]
   }]
 }

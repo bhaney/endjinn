@@ -1,0 +1,46 @@
+{
+  "environments": [{
+
+  }],
+  "agents": [
+    {
+      "name": "buyer",
+      "actions": [{
+        "name": "buy",
+        "lang": "python"
+      }],
+      "state_vars": [{
+        "balances": "dict"
+      }]
+    },
+    {
+      "name": "simple_market_transactor",
+      "actions": [{
+          "name": "buy",
+          "lang": "python"
+      }, {
+          "name": "sell",
+          "lang": "python"
+      }],
+      "state_vars": [{
+          "balances": "dict"
+      }]
+    }
+  ],
+  "actions": [{
+    "name": "buy_js",
+    "file": "endjinn_action_buy.js"
+  }, {
+    "name": "sell_js",
+    "file": "endjinn_action_sell.js"
+  }, {
+    "name": "buy",
+    "file": "endjinn_action_buy.py"
+  }, {
+    "name": "sell",
+    "file": "endjinn_action_sell.py"
+  }],
+  "object_packs": [{
+
+  }]
+}

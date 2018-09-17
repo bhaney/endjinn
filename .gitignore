@@ -6,7 +6,12 @@ __pycache__/
 # C extensions
 *.so
 
+# IDE files
 .idea/
+
+# Local config and registry
+local_registry_objects/
+local_registry.json
 
 # Distribution / packaging
 .Python
