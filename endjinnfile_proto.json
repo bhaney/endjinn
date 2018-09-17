@@ -6,6 +6,7 @@
   },
   "population": 100,
   "runs": 100,
+  "ticks_per_run": null,
   "pop_growth_model": "",
   "plugins": [],
   "agents": [{

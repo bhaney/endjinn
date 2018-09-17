@@ -58,12 +58,14 @@ if __name__ == "__main__":
     population = sim_params.get("population")
     agent_modules = {}
     agent_registry_entries = {}
+    agent_reward_vars = {}
 
     # Check that each agent has an entry
     for agent in sim_params["agents"]:
         if not endjinn.registry.agent_registry.check_for_agent(agent["name"], global_registry, local_registry):
             raise Exception("Agent %s not found in registry. Check the agent name." % agent["name"])
         else:
+            agent_reward_vars[agent["name"]] = agent["reward_var"]
             agent_registry_entries[agent["name"]] = endjinn.registry.agent_registry.get_registry_entry(agent["name"],
                                                                                                        global_registry,
                                                                                                        local_registry)
@@ -154,7 +156,7 @@ if __name__ == "__main__":
 
     for i in range(runs):
         solns = []
-        policy_rewards = []
+        policy_rewards = [None] * len(policies)
 
         for j, solver in enumerate(solvers):
             solns.append(solver.ask())
@@ -166,29 +168,52 @@ if __name__ == "__main__":
 
         for k in range(DEFAULT_SOLVER_POPSIZE):
             for j, soln in enumerate(solns):
+                print soln[k]
                 policies[j].set_model_weights(soln[k])
 
-            for n, agent in enumerate(agents):
-                policy_index = agent_types.index(agent.__class__.__name__)
-                agent_inp = agent.get_input()
-                pred = policies[policy_index].model.predict(agent_inp)
-                final_pred = None
+            # Run complete number of ticks
+            for tick in sim_params["ticks_per_run"]:
+                for n, agent in enumerate(agents):
+                    policy_index = agent_types.index(agent.__class__.__name__)
+                    agent_inp = agent.get_input()
+                    pred = policies[policy_index].model.predict(agent_inp)
+                    final_pred = None
 
-                if len(pred) == 1:
-                    if pred[0] > 0:
-                        final_pred = 1
-                    elif pred[0] <= 0:
-                        final_pred = 0
-                else:
-                    final_pred = np.argmax(pred)
+                    if len(pred) == 1:
+                        if pred[0] > 0:
+                            final_pred = 1
+                        elif pred[0] <= 0:
+                            final_pred = 0
+                    else:
+                        final_pred = np.argmax(pred)
 
-                if len(pred) == 1:
-                    if final_pred == 1:
-                        action = action_modules[agent.actions[0]].handler()
-                else:
-                    action_name = agent.actions[final_pred]
-                    action = action_modules[action_name].handler
-                    action_params = [getattr(agent, thing) for thing in action_param_sets[action_name]]
-                    update_dict = action(agent.state, env.state, action_params)
-                    update_dict.apply(agent.state)
-                    env.register_action(n, action, action_params)
+                    if len(pred) == 1:
+                        if final_pred == 1:
+                            action = action_modules[agent.actions[0]].handler()
+                    else:
+                        action_name = agent.actions[final_pred]
+                        action = action_modules[action_name].handler
+                        action_params = [getattr(agent, thing) for thing in action_param_sets[action_name]]
+                        update_dict = action(agent.state, env.state, action_params)
+                        update_dict.apply(agent.state)
+                        env.register_action(n, action, action_params)
+
+                env._tick()
+
+            # Gather rewards
+            temp_fitnesses = []
+
+            for i in range(len(solvers)):
+                temp_fitnesses.append([])
+
+            for agent in agents:
+                solver_index = agent_types.index(agent.__class__.__name__)
+                agent_reward = agent.state[agent_reward_vars[agent["name"]]]
+                temp_fitnesses[solver_index].append()
+
+            for i, thing in enumerate(temp_fitnesses):
+                avg = np.mean(thing)
+                all_fitnesses[i][k] = avg
+
+        for i, thing in enumerate(all_fitnesses):
+            solvers[i].tell(thing)

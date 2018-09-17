@@ -25,6 +25,10 @@ ML-powered multi-agent simulation toolkit
 
 See [here](https://www.tensorflow.org/install/) for instructions on how to install Tensorflow on your target OS. Note that CUDA is required.
 
+Note on TF/CUDA: While a GPU is not required for training due to use of
+Evolution Strategies solver, TF backend must be present for Keras models
+to compile correctly.
+
 ## Overview & Tips
 
     * Main objects are Environment, Agent, and Action.
