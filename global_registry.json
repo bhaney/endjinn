@@ -26,12 +26,6 @@
     }
   ],
   "actions": [{
-    "name": "buy_js",
-    "file": "endjinn_action_buy.js"
-  }, {
-    "name": "sell_js",
-    "file": "endjinn_action_sell.js"
-  }, {
     "name": "buy",
     "file": "endjinn_action_buy.py"
   }, {
