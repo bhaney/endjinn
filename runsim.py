@@ -1,37 +1,192 @@
 import argparse
+import imp
+import os
 import json
+import numpy as np
 import endjinn
 import endjinn.registry.agent_registry
 import endjinn.registry.environment_registry
 import endjinn.registry.action_registry
-
+from endjinn.ml.policy import FFPolicy
+from endjinn.ml.es import CMAES
 
 parser = argparse.ArgumentParser(description='Process some integers.')
 parser.add_argument('--file', default="endjinnfile.json")
 args = parser.parse_args()
 
+DEFAULT_SOLVER_POPSIZE = 250
 
 if __name__ == "__main__":
     with open(args.file) as f:
         sim_params = json.load(f)
 
+    with open('global_registry.json') as f:
+        global_registry = json.load(f)
+
+    with open('local_registry.json') as f:
+        local_registry = json.load(f)
+
     # Check params are correctly structured
     endjinn.check_params(sim_params)
-    env_name = sim_params.get("environment")
+    env_name = sim_params["environment"]["name"]
 
     if not env_name:
         raise Exception("Environment name must be specified in endjinn file.")
 
+    env_file_path = None
+    env_registry_entry = endjinn.registry.environment_registry.get_registry_entry(env_name, global_registry,
+                                                                                  local_registry)
+    file_list = os.listdir(os.getcwd() + "/registry_objects")
+
+    if env_registry_entry["file"] in file_list:
+        env_file_path = os.getcwd() + "/registry_objects/" + env_registry_entry["file"]
+    else:
+        file_list = os.listdir(os.getcwd() + "/local_registry_objects")
+
+        if env_registry_entry["file"] in file_list:
+            env_file_path = os.getcwd() + "/local_registry_objects/" + env_registry_entry["file"]
+
+    if not env_file_path:
+        raise Exception("Environment file %s not found." % env_registry_entry["file"])
+
+    # env_module = importlib.import_module(env_file_path)
+    env_module = imp.load_source(env_name, env_file_path)
+    env = getattr(env_module, env_registry_entry["classname"])(*sim_params["environment"]["args"])
+
+    print "\nLoaded environment %s from %s\n" % (env_name, env_file_path)
+
     population = sim_params.get("population")
-
-    env_exists = endjinn.registry.environment_registry.search_for_environment(env_name)
-
-    if not env_exists:
-        raise Exception("Environment not found in registry. Check the environment name.")
+    agent_modules = {}
+    agent_registry_entries = {}
 
     # Check that each agent has an entry
     for agent in sim_params["agents"]:
-        if not endjinn.registry.agent_registry.search_for_agent(agent["name"]):
-            raise Exception("Agent %s not found in registry. Check the agent name.")
+        if not endjinn.registry.agent_registry.check_for_agent(agent["name"], global_registry, local_registry):
+            raise Exception("Agent %s not found in registry. Check the agent name." % agent["name"])
+        else:
+            agent_registry_entries[agent["name"]] = endjinn.registry.agent_registry.get_registry_entry(agent["name"],
+                                                                                                       global_registry,
+                                                                                                       local_registry)
+            file_path = None
+            # Look in global registry first
+            file_list = os.listdir(os.getcwd() + "/registry_objects")
 
+            if agent_registry_entries[agent["name"]]["file"] in file_list:
+                file_path = os.getcwd() + "/registry_objects/" + agent_registry_entries[agent["name"]]["file"]
+            else:
+                # Check local registry
+                file_list = os.listdir(os.getcwd() + "/local_registry_objects")
 
+                if agent_registry_entries[agent["name"]]["file"] in file_list:
+                    file_path = os.getcwd() + "/local_registry_objects/" + agent_registry_entries[agent["name"]]["file"]
+
+            if not file_path:
+                raise Exception("Agent file %s not found." % agent_registry_entries[agent["name"]]["file"])
+
+            agent_modules[agent["name"]] = imp.load_source(agent["name"], file_path)
+            print "\nLoaded agent %s from %s\n" % (agent["name"], file_path)
+
+    agents = []
+    agent_types = []
+    agent_registry_entries_by_classname = {}
+    policies = []
+    solvers = []
+    param_lengths = []
+    action_lengths = []
+    action_sets = {}
+    action_modules = {}
+    action_param_sets = {}
+    all_actions = []
+
+    for agent in sim_params["agents"]:
+        if agent["pop_percentage"]:
+            agent_pop = int(agent["pop_percentage"] * population)
+        else:
+            agent_pop = int(population / len(sim_params["agents"]))
+
+        ag = getattr(agent_modules[agent["name"]], agent_registry_entries[agent["name"]]["classname"])(*agent["args"])
+        param_lengths.append(ag.varmap.input_length)
+        action_lengths.append(len(ag.actions))
+        agent_types.append(agent_registry_entries[agent["name"]]["classname"])
+        action_sets[agent_registry_entries[agent["name"]]["classname"]] = ag.actions
+        all_actions += ag.actions
+        agent_registry_entries_by_classname[agent_registry_entries[agent["name"]]["classname"]] = \
+            agent_registry_entries[agent["name"]]
+
+        for act in agent_registry_entries[agent["name"]]["actions"]:
+            action_param_sets[act["name"]] = act["param_attributes"]
+
+    all_actions = set(all_actions)
+
+    for action in all_actions:
+        registry_entry = endjinn.registry.action_registry.get_registry_entry(action, global_registry, local_registry)
+
+        file_path = None
+        # Look in global registry first
+        file_list = os.listdir(os.getcwd() + "/registry_objects")
+
+        if registry_entry["file"] in file_list:
+            file_path = os.getcwd() + "/registry_objects/" + registry_entry["file"]
+        else:
+            # Check local registry
+            file_list = os.listdir(os.getcwd() + "/local_registry_objects")
+
+            if registry_entry["file"] in file_list:
+                file_path = os.getcwd() + "/local_registry_objects/" + registry_entry["file"]
+
+        if not file_path:
+            raise Exception("Action file %s not found." % registry_entry["file"])
+
+        action_modules[action] = imp.load_source(action, file_path)
+        print "\nLoaded action %s from %s\n" % (action, file_path)
+
+    for i, nparams in enumerate(param_lengths):
+        policies.append(FFPolicy(nparams, action_lengths[i]))
+        solvers.append(CMAES(nparams,
+                             popsize=DEFAULT_SOLVER_POPSIZE,
+                             weight_decay=0.0,
+                             sigma_init=0.5
+                             ))
+
+    # Run simulation
+    policy_reward_history = []
+    runs = sim_params["runs"]
+
+    for i in range(runs):
+        solns = []
+        policy_rewards = []
+
+        for j, solver in enumerate(solvers):
+            solns.append(solver.ask())
+
+        all_fitnesses = []
+
+        for solver in solvers:
+            all_fitnesses.append(np.zeros(DEFAULT_SOLVER_POPSIZE))
+
+        for k in range(DEFAULT_SOLVER_POPSIZE):
+            for j, soln in enumerate(solns):
+                policies[j].set_model_weights(soln[k])
+
+            for agent in agents:
+                policy_index = agent_types.index(agent.__class__.__name__)
+                agent_inp = agent.get_input()
+                pred = policies[policy_index].model.predict(agent_inp)
+                final_pred = None
+
+                if len(pred) == 1:
+                    if pred[0] > 0:
+                        final_pred = 1
+                    elif pred[0] <= 0:
+                        final_pred = 0
+                else:
+                    final_pred = np.argmax(pred)
+
+                if len(pred) == 1:
+                    if final_pred == 1:
+                        action = action_modules[agent.actions[0]].handler()
+                else:
+                    action_name = agent.actions[final_pred]
+                    print action_name
+                    action = action_modules[action_name].handler
+                    action_params = [getattr(agent, thing) for thing in action_param_sets[action_name]]

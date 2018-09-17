@@ -25,7 +25,7 @@ ML-powered multi-agent simulation toolkit
 
 See [here](https://www.tensorflow.org/install/) for instructions on how to install Tensorflow on your target OS. Note that CUDA is required.
 
-## Overview & Best Practices
+## Overview & Tips
 
     * Main objects are Environment, Agent, and Action.
     * Each object can be sub-classed and placed in `registry_objects`
@@ -39,6 +39,7 @@ See [here](https://www.tensorflow.org/install/) for instructions on how to insta
     * Global registry will eventually get moved to Endjinn Package Manager (EPM)
     * Additional Object Packs for different simulation domains will be added over time
     * Work on additional policy types and solvers is ongoing, look for periodic updates
+    * OpenMPI-based distributed processing
 
 For suggestions please start an issue. Gitter forthcoming.
 

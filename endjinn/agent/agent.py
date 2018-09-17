@@ -1,4 +1,5 @@
 import numpy as np
+from endjinn.ml.varmap import VarMap
 
 
 class Agent(object):
@@ -7,6 +8,7 @@ class Agent(object):
         self.update_cbs = update_cbs
         self.actions = None
         self.state_vars = None
+        self.varmap = None
 
     def _update(self, new_state):
         self.state = new_state
@@ -26,11 +28,17 @@ class Agent(object):
 
     def _set_varmap(self):
         if not self.state_vars:
-            raise Exception("state_vars on agent not set.")
+            raise Exception("state_vars on agent not set. Call set_state_vars first.")
+
+        self.varmap = VarMap(self.state_vars)
 
     def set_state_vars(self, state_vars):
-        for key, val in state_vars.iteritems():
-            assert val in ["float", "int", "string"]
+        for var in state_vars:
+            assert var["type"] in ["float", "int", "string"]
 
         self.state_vars = state_vars
+        self._set_varmap()
+
+    def get_input(self):
+        return self.varmap.get_input(self.state)
 

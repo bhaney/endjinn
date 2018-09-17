@@ -1,7 +1,5 @@
 {
-  "environments": [{
-
-  }],
+  "environments": [],
   "agents": [
     {
       "name": "buyer",
@@ -40,7 +38,5 @@
     "name": "sell",
     "file": "endjinn_action_sell.py"
   }],
-  "object_packs": [{
-
-  }]
+  "object_packs": []
 }

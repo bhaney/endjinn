@@ -8,4 +8,11 @@ def handler(agent_state, global_state, params):
     :param params: Parameters of the action itself
     :return: UpdateDict
     """
-    pass
+    price = global_state[params["price_key"]]
+    less_amt = params["buy_amount"] * price
+    total = params["buy_amount"] / price
+    update_params = {"balances_usd": less_amt, "balances_" + params["price_key"]: total}
+
+    ud = UpdateDict(update_params)
+
+    return ud

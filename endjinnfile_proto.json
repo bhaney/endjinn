@@ -1,5 +1,9 @@
 {
-  "environment": "",
+  "environment": {
+    "name": "",
+    "classname": "",
+    "file": ""
+  },
   "population": 100,
   "runs": 100,
   "pop_growth_model": "",

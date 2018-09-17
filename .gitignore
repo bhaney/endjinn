@@ -12,6 +12,7 @@ __pycache__/
 # Local config and registry
 local_registry_objects/
 local_registry.json
+endjinnfile.json
 
 # Distribution / packaging
 .Python

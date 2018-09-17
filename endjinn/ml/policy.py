@@ -25,9 +25,23 @@ class FFPolicy(object):
         model.add(Dense(hidden_width))
         model.add(Activation('tanh'))
         model.add(Dense(output_dim))
-        model.add(Activation('softmax'))
+
+        if output_dim > 1:
+            model.add(Activation('softmax'))
+        elif output_dim == 1:
+            model.add(Activation('tanh'))
+
+        loss = ''
+
+        if output_dim > 2:
+            loss = 'categorical_crossentropy'
+        elif output_dim == 2:
+            loss = 'binary_crossentropy'
+        elif output_dim == 1:
+            loss = 'mse'
+
         model.compile(optimizer='rmsprop',
-                      loss='categorical_crossentropy',
+                      loss=loss,
                       metrics=['accuracy'])
 
         self.model = model
