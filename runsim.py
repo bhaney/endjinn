@@ -168,7 +168,7 @@ if __name__ == "__main__":
             for j, soln in enumerate(solns):
                 policies[j].set_model_weights(soln[k])
 
-            for agent in agents:
+            for n, agent in enumerate(agents):
                 policy_index = agent_types.index(agent.__class__.__name__)
                 agent_inp = agent.get_input()
                 pred = policies[policy_index].model.predict(agent_inp)
@@ -187,6 +187,8 @@ if __name__ == "__main__":
                         action = action_modules[agent.actions[0]].handler()
                 else:
                     action_name = agent.actions[final_pred]
-                    print action_name
                     action = action_modules[action_name].handler
                     action_params = [getattr(agent, thing) for thing in action_param_sets[action_name]]
+                    update_dict = action(agent.state, env.state, action_params)
+                    update_dict.apply(agent.state)
+                    env.register_action(n, action, action_params)
