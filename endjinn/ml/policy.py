@@ -94,3 +94,7 @@ class FFPolicy(object):
             slices.append(slc)
 
         return slices
+
+    def get_model_weights_as_1d(self):
+        return np.concatenate([thing.flatten() for thing in self.model.get_weights()])
+

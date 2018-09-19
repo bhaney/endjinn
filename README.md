@@ -17,6 +17,14 @@ ML-powered multi-agent simulation toolkit
     3. Edit parameters in endjinnfile.json to your liking
     4. Do `python runsim.py`
 
+## Running Tests
+
+`nosetests --nologcapture`
+
+Drop nologcapture if you prefer to use nose's standard capturing. However,
+note that in its standard mode it is likely to spit out a bunch of
+Tensorflow log messages before proceeding to the tests.
+
 ## Dependencies
 
     * Numpy
