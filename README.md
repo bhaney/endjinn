@@ -17,6 +17,12 @@ ML-powered multi-agent simulation toolkit
     3. Edit parameters in endjinnfile.json to your liking
     4. Do `python runsim.py`
 
+Note that if you don't use agents and environments which are already present in global_registry.json and have
+corresponding files, you will need to place your own subclasses in local_registry_objects and ensure that their entries
+in local_registry.json are complete.
+
+`local_registry_objects/` is ignored by Git, so you may need to create the directory.
+
 ## Running Tests
 
 `nosetests --nologcapture`
