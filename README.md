@@ -3,19 +3,19 @@ ML-powered multi-agent simulation toolkit
 
 ## Components
 
-    * Main simulation runner
-    * Prototypes for Agents, Actions, and Environments
-    * Built-in ES solver for policy networks
-    * Javascript action service
-    * (Coming soon) Reporter connectors
-    * (Coming soon) Real time viz server
+* Main simulation runner
+* Prototypes for Agents, Actions, and Environments
+* Built-in ES solver for policy networks
+* (Coming soon) Javascript action service
+* (Coming soon) Reporter connectors
+* (Coming soon) Real time viz server
 
 ## Quick start guide
 
-    1. Copy the endjinnfile_proto.json file and rename it endjinnfile.json
-    2. Do `python setup.py install`
-    3. Edit parameters in endjinnfile.json to your liking
-    4. Do `python runsim.py`
+1. Copy the endjinnfile_proto.json file and rename it endjinnfile.json
+2. Do `python setup.py install`
+3. Edit parameters in endjinnfile.json to your liking
+4. Do `python runsim.py`
 
 Note that if you don't use agents and environments which are already present in global_registry.json and have
 corresponding files, you will need to place your own subclasses in local_registry_objects and ensure that their entries
@@ -33,9 +33,9 @@ Tensorflow log messages before proceeding to the tests.
 
 ## Dependencies
 
-    * Numpy
-    * Keras (TF backend)
-    * Tensorflow
+* Numpy
+* Keras (TF backend)
+* Tensorflow
 
 See [here](https://www.tensorflow.org/install/) for instructions on how to install Tensorflow on your target OS. Note that CUDA is required.
 
@@ -45,12 +45,12 @@ to compile correctly.
 
 ## Overview & Tips
 
-    * Main objects are Environment, Agent, and Action.
-    * Each object can be sub-classed and placed in `registry_objects`
-    * To use local files, edit the `local_registry.json` file
-    * `local_registry.json` objects will be looked for in `local_registry_objects`. Both the registry file and the directory are ignored
+* Main objects are Environment, Agent, and Action.
+* Each object can be sub-classed and placed in `registry_objects`
+* To use local files, edit the `local_registry.json` file
+* `local_registry.json` objects will be looked for in `local_registry_objects`. Both the registry file and the directory are ignored
     by default, so you won't end up accidentally publishing your local work to the main repo.
-    * To add a global object (Action, Agent, Environment), edit the registry, make sure all files are in `registry_objects`, and do a pull request
+* To add a global object (Action, Agent, Environment), edit the registry, make sure all files are in `registry_objects`, and do a pull request
 
 ## Roadmap
 

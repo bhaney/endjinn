@@ -1,0 +1,21 @@
+{
+  "environments": [{
+    "name": "",
+    "file": "endjinn_environment_my_custom_env.py",
+    "classname": "MyEnvClass"
+  }],
+  "agents": [
+    {
+      "name": "my_custom_agent",
+      "actions": [{
+        "name": "buy",
+        "lang": "python",
+        "param_attributes": ["price_key", "buy_amount"]
+      }],
+      "file": "endjinn_agent_my_custom_agent.py",
+      "classname": "MyAgentClass"
+    }
+  ],
+  "actions": [],
+  "object_packs": []
+}
