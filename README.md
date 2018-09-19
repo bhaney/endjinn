@@ -69,4 +69,8 @@ For suggestions please start an issue. Gitter forthcoming.
 
 ## Additional Info
 
-The wiki will be frequently updated with more in-depth guides and info. Check back periodically.
+The wiki will be frequently updated with more in-depth guides and info:
+
+https://github.com/MaxwellRebo/endjinn/wiki
+
+Check back periodically.

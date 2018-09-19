@@ -90,7 +90,6 @@ if __name__ == "__main__":
             agent_modules[agent["name"]] = imp.load_source(agent["name"], file_path)
             print "\nLoaded agent %s from %s\n" % (agent["name"], file_path)
 
-    agents = []
     agent_types = []
     agent_registry_entries_by_classname = {}
     policies = []
@@ -100,6 +99,7 @@ if __name__ == "__main__":
     action_sets = {}
     action_modules = {}
     action_param_sets = {}
+    agent_pops = {}
     all_actions = []
 
     for agent in sim_params["agents"]:
@@ -108,6 +108,7 @@ if __name__ == "__main__":
         else:
             agent_pop = int(population / len(sim_params["agents"]))
 
+        agent_pops[agent["name"]] = agent_pop
         ag = getattr(agent_modules[agent["name"]], agent_registry_entries[agent["name"]]["classname"])(*agent["args"])
         param_lengths.append(ag.varmap.input_length)
         action_lengths.append(len(ag.actions))
@@ -119,12 +120,6 @@ if __name__ == "__main__":
 
         for act in agent_registry_entries[agent["name"]]["actions"]:
             action_param_sets[act["name"]] = act["param_attributes"]
-
-        for k in range(agent_pop):
-            agt = getattr(agent_modules[agent["name"]], agent_registry_entries[agent["name"]]["classname"])(
-                *agent["args"])
-            agt.name = agent["name"]
-            agents.append(agt)
 
     all_actions = set(all_actions)
 
@@ -176,6 +171,15 @@ if __name__ == "__main__":
             all_fitnesses.append(np.zeros(DEFAULT_SOLVER_POPSIZE))
 
         for k in range(DEFAULT_SOLVER_POPSIZE):
+            agents = []
+
+            for agent in sim_params["agents"]:
+                for k in range(agent_pops[agent["name"]]):
+                    agt = getattr(agent_modules[agent["name"]], agent_registry_entries[agent["name"]]["classname"])(
+                        *agent["args"])
+                    agt.name = agent["name"]
+                    agents.append(agt)
+
             for j, soln in enumerate(solns):
                 policies[j].set_model_weights(soln[k])
 
