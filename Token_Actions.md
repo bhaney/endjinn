@@ -2,45 +2,28 @@ https://docs.google.com/document/d/1Gq24q6tIDDZf-DcOoNrbDT_v1ME1T7J3nE9F0-RmvYU/
 Token incentives/use dynamics action types
 
 
-Field                      |             Description
----------------------------|----------------------------
-stake           |     place in escrow with intent of receiving back after some period/series of events
-Unstake         |
-Buy                        |       something on offer (specify agent offering)
-Sell                       |       something on offer (by this agent)
-Disallow                   |             due to insufficient funds
-join group                | such as VP table, auction, etc; open question: should admittance be a seperate step (by gatekeeper) or only join groups that would approve applicant?
-Requestsign  |  co-signer approve transaction (for multisig wallet)
-approvesign    | Co-signer approves transaction 
-rejectsign     |  Co-signer rejects transaction
-bounty          | request service, specified by terms
-Offer                             |      make good/service available 
-Follow agent          | replace normal action evaluation procedure with simple imitation of another agent's action
-StopFollow          | return to normal action evaluation procedure
-transfer                       | agent moves money with receiving a specific object or service in return 
-offer               | object, terms can be fixed price or auction
-Propose                     |    for iniating a deal or agreement, with specified terms, such as to whom, how long
-Rescind propose         |    only possible at n+1 for proposal at time n
-bid                   |     for offered good during auction, at whatever is spot price
-accept bid            |     end auction and transfer
-counter bid           |     at next increment
-Hold position (pass turn)         |
-Terms                 | holder for details/conditions of proposal
-Make claim          |      resolution of proposal or outcome of activity
-Accept claim                |       and take required action
-Contest claim               |      send to dispute resolution
-judge affirmative         | in favor of claimant
-judge negative            | in favor of contestor
+Field                      |             Description    |       Parameter
+---------------------------|----------------------------|------------------------
+stake           |     place in escrow with intent of receiving back after some period/series of events  | .1
+Unstake         |     remove from escrow                        |   .1
+Buy                        |       something on offer (specify agent offering) | .1
+Sell                       |       something on offer (by this agent)         | .1
+Hold         |     pass turn            | .1
+Follow agent          | replace normal action evaluation procedure with simple imitation of another agent's action (without other agent's knowledge)          | .1
+StopFollow          | return to normal action evaluation procedure   | .1 
+Propose collusion     | agents agree to harmonize movements           | .1
+bid                   |     for offered good during auction, at whatever is spot price  | .1
+complete auction            |     accept high bid, end auction, and transfer      | .1
+counter bid           |     at next increment           | .1
+offer                 | make tokens available on secondary market at spot price   | .1
+transfer                       | agent moves asset without receiving a specific object or service in return    | .1
+claim bonus             | such as for posting articles, influencer social sharing    | .1
 
 Informational activities to be included in agent state characteristics, but not explicit actions
-Send Message                       |     private message/DM to set of other agents
-Broadcast message                   |    public message to all available agents
-Read private message               |     part of cost of information
-Read public message                |
-  
-limitations on agent knowledge of state of another agent      |
-Check revelation of information by a threshold of users      |
-Update position                   |
-Evaluate risk of a proposal/action      |
-Update risk aversion profile        |
+Agent knowledge of surrounding users (some decay as you get further out on their social graph)
+risk profile (preferably learned)
+bounded rationality (probably a random obscuring of relevant information, or a deviation from identified ideal action function)
+agent knowledge of global state
+agent funds, maybe in more than just the token of interest
+perhaps all accept/reject choices should be made at agent state update, rather than occupy a full time step as an action?
 
