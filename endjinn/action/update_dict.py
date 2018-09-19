@@ -10,7 +10,7 @@ class UpdateDict(object):
             State of an agent from before an action was taken
         :return:
         """
-        for key, val in self.params:
+        for key, val in self.params.iteritems():
             if key in state_dict:
                 if isinstance(self.params[key], int) or isinstance(self.params[key], float):
                     state_dict[key] += self.params[key]

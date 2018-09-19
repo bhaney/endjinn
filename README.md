@@ -23,6 +23,12 @@ in local_registry.json are complete.
 
 `local_registry_objects/` is ignored by Git, so you may need to create the directory.
 
+Similarly, `local_registry.json` is ignored. If you want to create custom objects,
+copy `local_registry_proto.json`, rename it to `local_registry.json`, and edit its fields
+to reflect your custom objects.
+
+Wiki entry here: https://github.com/MaxwellRebo/endjinn/wiki/Local-registry-explained
+
 ## Running Tests
 
 `nosetests --nologcapture`

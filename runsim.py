@@ -10,8 +10,9 @@ import endjinn.registry.action_registry
 from endjinn.ml.policy import FFPolicy
 from endjinn.ml.es import CMAES
 
-parser = argparse.ArgumentParser(description='Process some integers.')
+parser = argparse.ArgumentParser(description='Simulation engine with lots of stuff.')
 parser.add_argument('--file', default="endjinnfile.json")
+parser.add_argument('-v', '--verbose', dest="verbose", action='store_true')
 args = parser.parse_args()
 
 DEFAULT_SOLVER_POPSIZE = 250
@@ -118,6 +119,12 @@ if __name__ == "__main__":
         for act in agent_registry_entries[agent["name"]]["actions"]:
             action_param_sets[act["name"]] = act["param_attributes"]
 
+        for k in range(agent_pop):
+            agt = getattr(agent_modules[agent["name"]], agent_registry_entries[agent["name"]]["classname"])(
+                *agent["args"])
+            agt.name = agent["name"]
+            agents.append(agt)
+
     all_actions = set(all_actions)
 
     for action in all_actions:
@@ -144,7 +151,7 @@ if __name__ == "__main__":
 
     for i, nparams in enumerate(param_lengths):
         policies.append(FFPolicy(nparams, action_lengths[i]))
-        solvers.append(CMAES(nparams,
+        solvers.append(CMAES(policies[-1].total_params,
                              popsize=DEFAULT_SOLVER_POPSIZE,
                              weight_decay=0.0,
                              sigma_init=0.5
@@ -168,15 +175,15 @@ if __name__ == "__main__":
 
         for k in range(DEFAULT_SOLVER_POPSIZE):
             for j, soln in enumerate(solns):
-                print soln[k]
                 policies[j].set_model_weights(soln[k])
 
             # Run complete number of ticks
-            for tick in sim_params["ticks_per_run"]:
+            for tick in range(sim_params["ticks_per_run"]):
                 for n, agent in enumerate(agents):
                     policy_index = agent_types.index(agent.__class__.__name__)
                     agent_inp = agent.get_input()
-                    pred = policies[policy_index].model.predict(agent_inp)
+                    agent_inp = agent_inp.ravel()[None]
+                    pred = policies[policy_index].single_prediction(agent_inp)
                     final_pred = None
 
                     if len(pred) == 1:
@@ -187,13 +194,25 @@ if __name__ == "__main__":
                     else:
                         final_pred = np.argmax(pred)
 
+                    action = None
+                    action_name = None
+
                     if len(pred) == 1:
+                        # One action
                         if final_pred == 1:
-                            action = action_modules[agent.actions[0]].handler()
+                            action = action_modules[agent.actions[0]].handler
+                            action_name = agent.actions[0]
                     else:
+                        # Multiple actions
                         action_name = agent.actions[final_pred]
                         action = action_modules[action_name].handler
-                        action_params = [getattr(agent, thing) for thing in action_param_sets[action_name]]
+
+                    if action_name and action:
+                        action_params = {}
+
+                        for thing in action_param_sets[action_name]:
+                            action_params[thing] = getattr(agent, thing)
+
                         update_dict = action(agent.state, env.state, action_params)
                         update_dict.apply(agent.state)
                         env.register_action(n, action, action_params)
@@ -203,17 +222,20 @@ if __name__ == "__main__":
             # Gather rewards
             temp_fitnesses = []
 
-            for i in range(len(solvers)):
+            for s in range(len(solvers)):
                 temp_fitnesses.append([])
 
             for agent in agents:
                 solver_index = agent_types.index(agent.__class__.__name__)
-                agent_reward = agent.state[agent_reward_vars[agent["name"]]]
-                temp_fitnesses[solver_index].append()
+                agent_reward = agent.state[agent_reward_vars[agent.name]]
+                temp_fitnesses[solver_index].append(agent_reward)
 
-            for i, thing in enumerate(temp_fitnesses):
+            for f, thing in enumerate(temp_fitnesses):
                 avg = np.mean(thing)
-                all_fitnesses[i][k] = avg
+                all_fitnesses[f][k] = avg
 
-        for i, thing in enumerate(all_fitnesses):
-            solvers[i].tell(thing)
+        for g, thing in enumerate(all_fitnesses):
+            solvers[g].tell(thing)
+
+        if args.verbose:
+            print "Run %i complete" % i

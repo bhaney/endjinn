@@ -5,7 +5,7 @@ class Environment(object):
         self.cycles = 0
         self.state = {}
         self.state_vars = None
-        self.action_history = []
+        self.action_history = [list()]
         self.end = False
 
     def register_pre_cycle_hook(self, cb):

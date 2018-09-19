@@ -98,3 +98,6 @@ class FFPolicy(object):
     def get_model_weights_as_1d(self):
         return np.concatenate([thing.flatten() for thing in self.model.get_weights()])
 
+    def single_prediction(self, inp):
+        return self.model.predict(inp)[0]
+
