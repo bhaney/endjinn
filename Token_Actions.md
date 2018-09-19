@@ -9,8 +9,7 @@ Unstake         |
 Buy                        |       something on offer (specify agent offering)
 Sell                       |       something on offer (by this agent)
 Disallow                   |             due to insufficient funds
-join group                | such as VP table, auction, etc; open question: should admittance be a seperate step (by gatekeeper)
-                            or only join groups that would approve applicant?
+join group                | such as VP table, auction, etc; open question: should admittance be a seperate step (by gatekeeper) or only join groups that would approve applicant?
 Requestsign  |  co-signer approve transaction (for multisig wallet)
 approvesign    | Co-signer approves transaction 
 rejectsign     |  Co-signer rejects transaction
