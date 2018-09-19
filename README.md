@@ -60,10 +60,10 @@ to compile correctly.
 
 ## Roadmap
 
-    * Global registry will eventually get moved to Endjinn Package Manager (EPM)
-    * Additional Object Packs for different simulation domains will be added over time
-    * Work on additional policy types and solvers is ongoing, look for periodic updates
-    * OpenMPI-based distributed processing
+* Global registry will eventually get moved to Endjinn Package Manager (EPM)
+* Additional Object Packs for different simulation domains will be added over time
+* Work on additional policy types and solvers is ongoing, look for periodic updates
+* OpenMPI-based distributed processing
 
 For suggestions please start an issue. Gitter forthcoming.
 

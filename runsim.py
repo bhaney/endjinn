@@ -3,6 +3,7 @@ import imp
 import os
 import json
 import numpy as np
+import marktime as mt
 import endjinn
 import endjinn.registry.agent_registry
 import endjinn.registry.environment_registry
@@ -162,6 +163,7 @@ if __name__ == "__main__":
     runs = sim_params["runs"]
 
     for i in range(runs):
+        mt.start("run")
         solns = []
         policy_rewards = [None] * len(policies)
 
@@ -237,5 +239,7 @@ if __name__ == "__main__":
         for g, thing in enumerate(all_fitnesses):
             solvers[g].tell(thing)
 
+        duration = mt.stop("run")
+
         if args.verbose:
-            print "Run %i complete" % i
+            print "Run %i complete in %f seconds" % (i, duration.seconds)
