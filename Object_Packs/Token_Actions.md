@@ -1,7 +1,3 @@
-https://docs.google.com/document/d/1Gq24q6tIDDZf-DcOoNrbDT_v1ME1T7J3nE9F0-RmvYU/edit
-Token incentives/use dynamics action types
-
-
 Field                      |             Description    |       Parameter
 ---------------------------|----------------------------|------------------------
 stake           |     place in escrow with intent of receiving back after some period/series of events  | .1
