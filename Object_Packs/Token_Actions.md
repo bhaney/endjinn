@@ -8,7 +8,7 @@ Hold                  | Pass turn            | .1
 FollowAgent           | Replace normal action evaluation procedure with simple imitation of another agent's action (without other agent's knowledge)         | .1
 StopFollow            | Return to normal action evaluation procedure   | .1 
 ProposeCollusion      | Agents agree to harmonize movements           | .1
-Bid                   | Ror offered good during auction, at whatever is spot price  | .1
+Bid                   | For offered good during auction, at whatever is spot price  | .1
 CompleteAuction       | Accept high bid, end auction, and transfer      | .1
 CounterBid            | At next increment           | .1
 Offer                 | Make tokens available on secondary market at spot price   | .1
