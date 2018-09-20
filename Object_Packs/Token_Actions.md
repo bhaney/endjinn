@@ -1,7 +1,7 @@
 Field                 |             Description    |       Parameter
 ----------------------|----------------------------|------------------------
 Stake                 | Place in escrow with intent of receiving back after some period/series of events  | .1
-Unstake               | Remove from escrow                        |   .1
+Unstake               | Remove from escrow                          | .1
 Buy                   | Something on offer (specify agent offering) | .1
 Sell                  | Something on offer (by this agent)         | .1
 Hold                  | Pass turn            | .1
