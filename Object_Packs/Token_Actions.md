@@ -9,9 +9,10 @@ FollowAgent           | Replace normal action evaluation procedure with simple i
 StopFollow            | Return to normal action evaluation procedure   | .1 
 ProposeCollusion      | Agents agree to harmonize movements           | .1
 Bid                   | For offered good during auction, at whatever is spot price  | .1
+Ask                   | For offered good during auction, at whatever is spot price  | .1
+Offer                 | Make tokens available on secondary market at spot price   | .1
 CompleteAuction       | Accept high bid, end auction, and transfer      | .1
 CounterBid            | At next increment           | .1
-Offer                 | Make tokens available on secondary market at spot price   | .1
 Transfer              | Agent moves asset without receiving a specific object or service in return    | .1
 ClaimBonus            | Such as for posting articles, influencer social sharing    | .1
 
