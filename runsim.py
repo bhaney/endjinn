@@ -171,6 +171,8 @@ if __name__ == "__main__":
             all_fitnesses.append(np.zeros(DEFAULT_SOLVER_POPSIZE))
 
         for k in range(DEFAULT_SOLVER_POPSIZE):
+            # Re-instantiate env for a clean run for each solution
+            env = getattr(env_module, env_registry_entry["classname"])(*sim_params["environment"]["args"])
             agents = []
 
             for agent in sim_params["agents"]:

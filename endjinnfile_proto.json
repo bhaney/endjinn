@@ -20,5 +20,6 @@
     "type": "",
     "range": "",
     "set": [""]
-  }]
+  }],
+  "parallel_mode": "local"
 }
