@@ -9,6 +9,8 @@ class Agent(object):
         self.actions = None
         self.state_vars = None
         self.varmap = None
+        # action_params should be a list of attributes which get passed to each action as arguments
+        self.action_params = None
 
     def _update(self, new_state):
         self.state = new_state
@@ -42,3 +44,13 @@ class Agent(object):
     def get_input(self):
         return self.varmap.get_input(self.state)
 
+    def get_action_params(self):
+        if not self.action_params:
+            raise Exception("action_params not present on Agent. Be sure to implement in subclass.")
+
+        temp = {}
+
+        for key in self.action_params:
+            temp[key] = getattr(self, key)
+
+        return temp
