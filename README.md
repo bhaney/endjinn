@@ -10,7 +10,6 @@ https://github.com/MaxwellRebo/endjinn/wiki/FAQ
 * Main simulation runner
 * Prototypes for Agents, Actions, and Environments
 * Built-in ES solver for policy networks
-* (Coming soon) Javascript action service
 * (Coming soon) Reporter connectors
 * (Coming soon) Real time viz server
 
