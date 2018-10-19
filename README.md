@@ -1,6 +1,10 @@
 # endjinn
 ML-powered multi-agent simulation toolkit
 
+## FAQ
+
+https://github.com/MaxwellRebo/endjinn/wiki/FAQ
+
 ## Components
 
 * Main simulation runner
