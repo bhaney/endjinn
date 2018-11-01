@@ -1,4 +1,0 @@
-Field,Description,Parameter
-stake,place in escrow with intent of receiving back after some period/series of events,.1
-Unstake,remove from escrow,.1
-Buy,something on offer (specify agent offering),.1
