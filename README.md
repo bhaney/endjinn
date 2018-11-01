@@ -11,7 +11,7 @@ https://github.com/MaxwellRebo/endjinn/wiki/FAQ
 * Prototypes for Agents, Actions, and Environments
 * Built-in ES solver for policy networks
 * (Coming soon) Reporter connectors
-* (Coming soon) Real time viz server
+* (Coming soon) Model persistence on IPFS
 
 ## Quick start guide
 

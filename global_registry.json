@@ -1,5 +1,9 @@
 {
-  "environments": [],
+  "environments": [{
+    "name": "token_dynamic",
+    "file": "endjinn_environment_token_dynamic.py",
+    "classname": "TokenDynamic"
+  }],
   "agents": [
     {
       "name": "buyer",
@@ -23,6 +27,20 @@
       "state_vars": [{
           "balances": "dict"
       }]
+    },
+    {
+      "name": "staker",
+      "actions": [{
+          "name": "stake",
+          "lang": "python",
+          "param_attributes": ["price_key"]
+      }, {
+          "name": "unstake",
+          "lang": "python",
+          "param_attributes": ["price_key"]
+      }],
+      "file": "endjinn_agent_staker.py",
+      "classname": "Staker"
     }
   ],
   "actions": [{
@@ -32,5 +50,7 @@
     "name": "sell",
     "file": "endjinn_action_sell.py"
   }],
-  "object_packs": []
+  "object_packs": [{
+    "name": "token_pack"
+  }]
 }

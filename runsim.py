@@ -179,6 +179,7 @@ if __name__ == "__main__":
                 for k in range(agent_pops[agent["name"]]):
                     agt = getattr(agent_modules[agent["name"]], agent_registry_entries[agent["name"]]["classname"])(
                         *agent["args"])
+                    agt.set_get_env(env)
                     agt.name = agent["name"]
                     agents.append(agt)
 

@@ -11,7 +11,7 @@ class Series(object):
 
     Series is assumed to 1D.
     """
-    def __init__(self, data):
+    def __init__(self, data=None):
         """
 
         :param data: Either list of ints/floats or list of tuples. If tuples, first argument is assumed to be
@@ -24,13 +24,14 @@ class Series(object):
         self.index = 0
         self.format = None
 
-        if all([hasattr(thing, '__len__') for thing in data]):
-            # Tuples of (timestamp, data)
-            self.format = "tuple"
-        else:
-            self.format = "list"
+        if data:
+            if all([hasattr(thing, '__len__') for thing in data]):
+                # Tuples of (timestamp, data)
+                self.format = "tuple"
+            else:
+                self.format = "list"
 
-        self.data = data
+            self.data = data
 
     def get_and_tick(self):
         ret = None
