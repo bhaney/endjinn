@@ -54,7 +54,7 @@ to compile correctly.
 
 ## Overview & Tips
 
-* Main objects are Environment, Agent, and Action.
+* Main objects are Environment and Agent; actions are simple handler functions.
 * Each object can be sub-classed and placed in `registry_objects`
 * To use local files, edit the `local_registry.json` file
 * `local_registry.json` objects will be looked for in `local_registry_objects`. Both the registry file and the directory are ignored

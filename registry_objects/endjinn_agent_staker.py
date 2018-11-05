@@ -25,3 +25,11 @@ class Staker(Agent):
         }
         # Key used to look up variable in environment
         self.price_key = token_name + "_price"
+
+    @property
+    def buy_amount(self):
+        return self.state['balances_eth']
+
+    @property
+    def sell_amount(self):
+        return self.state['balances_' + self.token_name]
