@@ -7,6 +7,7 @@ class Environment(object):
         self.state_vars = None
         self.action_history = [list()]
         self.end = False
+        self.metrics = []
 
     def register_pre_cycle_hook(self, cb):
         if callable(cb):

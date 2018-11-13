@@ -3,6 +3,10 @@
     "name": "token_dynamic",
     "file": "endjinn_environment_token_dynamic.py",
     "classname": "TokenDynamic"
+  }, {
+    "name": "testsim",
+    "file": "endjinn_environment_testsim.py",
+    "classname": "TestSim"
   }],
   "agents": [
     {
