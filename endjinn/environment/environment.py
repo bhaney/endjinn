@@ -30,6 +30,9 @@ class Environment(object):
         for cb in self.post_cycle_hooks:
             cb(self)
 
+        for metric in self.metrics:
+            metric.update({'action_history': self.action_history, 'environment_state': self.state})
+
         self.cycles += 1
 
     def tick_update(self):

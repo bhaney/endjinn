@@ -8,7 +8,7 @@ https://github.com/MaxwellRebo/endjinn/wiki/FAQ
 ## Components
 
 * Main simulation runner
-* Prototypes for Agents, Actions, and Environments
+* Prototypes for Agents, Actions, Environments, Metrics
 * Built-in ES solver for policy networks
 * (Coming soon) Reporter connectors
 * (Coming soon) Model persistence on IPFS
