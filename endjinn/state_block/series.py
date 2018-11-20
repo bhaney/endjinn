@@ -136,3 +136,12 @@ class Series(object):
 
     def get_dispersion_index(self):
         return self.get_variance() / self.get_mean()
+
+    def add_value(self, val):
+        """
+        Append a new value to the end of the series.
+
+        :param val: Float if scalar, tuple if (timestamp, value)
+        :return:
+        """
+        self.data.append(val)

@@ -1,0 +1,25 @@
+{
+  "environment": {
+    "name": "testsim",
+    "args": []
+  },
+  "population": 100,
+  "runs": 100,
+  "ticks_per_run": 100,
+  "pop_growth_model": null,
+  "plugins": [],
+  "agents": [{
+    "model_hash": "",
+    "name": "simple_speculator",
+    "reward_var": "effective_fiat",
+    "pop_percentage": 1.0,
+    "args": ["asset", "asset_perc_diffs"]
+  }],
+  "meta_vars": [{
+    "name": "",
+    "type": "",
+    "range": "",
+    "set": []
+  }],
+  "parallel_mode": "local"
+}

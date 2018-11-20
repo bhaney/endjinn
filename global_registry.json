@@ -20,17 +20,24 @@
       }]
     },
     {
-      "name": "simple_market_transactor",
+      "name": "simple_speculator",
       "actions": [{
           "name": "buy",
-          "lang": "python"
+          "lang": "python",
+          "param_attributes": ["price_key", "buy_amount"]
       }, {
           "name": "sell",
+          "lang": "python",
+          "param_attributes": ["price_key", "sell_amount"]
+      }, {
+          "name": "pass",
           "lang": "python"
       }],
       "state_vars": [{
           "balances": "dict"
-      }]
+      }],
+      "file": "endjinn_agent_simple_speculator.py",
+      "classname": "SimpleSpeculator"
     },
     {
       "name": "staker",
@@ -59,6 +66,9 @@
   }, {
     "name": "unstake",
     "file": "endjinn_action_unstake.py"
+  }, {
+    "name": "pass",
+    "file": "endjinn_action_pass.py"
   }],
   "object_packs": [{
     "name": "token_pack"

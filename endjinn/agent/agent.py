@@ -3,7 +3,7 @@ from endjinn.ml.varmap import VarMap
 
 
 class Agent(object):
-    def __init__(self, update_cbs=None):
+    def __init__(self, update_cbs=[]):
         self.state = {}
         self.update_cbs = update_cbs
         self.actions = None
@@ -58,3 +58,6 @@ class Agent(object):
 
     def set_get_env(self, env):
         self.get_env = lambda: env
+
+    def add_update_callback(self, func):
+        self.update_cbs.append(func)

@@ -32,6 +32,12 @@ to reflect your custom objects.
 
 Wiki entry here: https://github.com/MaxwellRebo/endjinn/wiki/Local-registry-explained
 
+## Test Example
+
+To run the test example, do:
+
+`python runsim.py --file test_endjinnfile.json --verbose`
+
 ## Running Tests
 
 `nosetests --nologcapture`
