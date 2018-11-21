@@ -37,7 +37,7 @@ class Agent(object):
 
     def set_state_vars(self, state_vars):
         for var in state_vars:
-            assert var["type"] in ["float", "int", "string"]
+            assert var["type"] in ["float", "int", "string", "array"]
 
         self.state_vars = state_vars
         self._set_varmap()

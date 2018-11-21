@@ -42,6 +42,10 @@ class VarMap(object):
         inp = [0] * self.input_length
 
         for key, val in state.iteritems():
+            if callable(val):
+                _val = val()
+                val = _val
+
             slc = self.index_slices[key]
 
             if len(slc) == 1:

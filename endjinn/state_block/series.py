@@ -32,6 +32,8 @@ class Series(object):
                 self.format = "list"
 
             self.data = data
+        else:
+            self.data = []
 
     def get_and_tick(self):
         ret = None
@@ -54,6 +56,9 @@ class Series(object):
             ret = self.data[start:end]
 
         return ret
+
+    def get_last_n(self, n):
+        return self.data[-n:]
 
     def load_from_csv(self, path, _format):
         """

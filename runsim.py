@@ -119,7 +119,10 @@ if __name__ == "__main__":
             agent_registry_entries[agent["name"]]
 
         for act in agent_registry_entries[agent["name"]]["actions"]:
-            action_param_sets[act["name"]] = act["param_attributes"]
+            if "param_attributes" in act:
+                action_param_sets[act["name"]] = act["param_attributes"]
+            else:
+                action_param_sets[act["name"]] = []
 
     all_actions = set(all_actions)
 
