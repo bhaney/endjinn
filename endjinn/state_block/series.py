@@ -11,7 +11,7 @@ class Series(object):
 
     Series is assumed to 1D.
     """
-    def __init__(self, data):
+    def __init__(self, data=None):
         """
 
         :param data: Either list of ints/floats or list of tuples. If tuples, first argument is assumed to be
@@ -24,13 +24,16 @@ class Series(object):
         self.index = 0
         self.format = None
 
-        if all([hasattr(thing, '__len__') for thing in data]):
-            # Tuples of (timestamp, data)
-            self.format = "tuple"
-        else:
-            self.format = "list"
+        if data:
+            if all([hasattr(thing, '__len__') for thing in data]):
+                # Tuples of (timestamp, data)
+                self.format = "tuple"
+            else:
+                self.format = "list"
 
-        self.data = data
+            self.data = data
+        else:
+            self.data = []
 
     def get_and_tick(self):
         ret = None
@@ -53,6 +56,9 @@ class Series(object):
             ret = self.data[start:end]
 
         return ret
+
+    def get_last_n(self, n):
+        return self.data[-n:]
 
     def load_from_csv(self, path, _format):
         """
@@ -135,3 +141,12 @@ class Series(object):
 
     def get_dispersion_index(self):
         return self.get_variance() / self.get_mean()
+
+    def add_value(self, val):
+        """
+        Append a new value to the end of the series.
+
+        :param val: Float if scalar, tuple if (timestamp, value)
+        :return:
+        """
+        self.data.append(val)

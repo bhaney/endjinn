@@ -7,6 +7,16 @@ class Graph(object):
     Class for representing state graph with valid transitions.
     """
     def __init__(self, node_labels=None, edgelist=None, stateful=False, weighted=False):
+        """
+
+        :param node_labels: List of strings.
+        :param edgelist: List of tuples/lists of integers, in (source, destination) format.
+        :param stateful: Bool. False is graph-structured data, True is state graph.
+        :param weighted: Bool. Denotes whether edges have weights or not.
+
+        Example:
+        g = Graph(node_labels=['sitting', 'sleeping', 'running'], edgelist=[(0, 1), (1, 0), (1, 2)], stateful=True)
+        """
         self.stateful = stateful
         self.weighted = weighted
         self.graph = None
@@ -20,7 +30,7 @@ class Graph(object):
         """
 
         :param edgelist: (source, dest) numbers.
-        :param node_labels: List of strings. Labeles for each node.
+        :param node_labels: List of strings. Labels for each node.
         :return:
         """
         if node_labels:
@@ -44,6 +54,10 @@ class Graph(object):
         self.current_state = state
 
     def transition(self, dest):
+        """
+        :param dest: String. Node label of state to which to transition.
+        :return:
+        """
         if not self.stateful:
             raise Exception("stateful flag is false on this class instance. Set stateful=True during instantiaion to "
                             "enable state transitions.")

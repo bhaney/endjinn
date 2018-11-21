@@ -3,7 +3,7 @@ from endjinn.ml.varmap import VarMap
 
 
 class Agent(object):
-    def __init__(self, update_cbs=None):
+    def __init__(self, update_cbs=[]):
         self.state = {}
         self.update_cbs = update_cbs
         self.actions = None
@@ -11,6 +11,7 @@ class Agent(object):
         self.varmap = None
         # action_params should be a list of attributes which get passed to each action as arguments
         self.action_params = None
+        self.get_env = None
 
     def _update(self, new_state):
         self.state = new_state
@@ -36,7 +37,7 @@ class Agent(object):
 
     def set_state_vars(self, state_vars):
         for var in state_vars:
-            assert var["type"] in ["float", "int", "string"]
+            assert var["type"] in ["float", "int", "string", "array"]
 
         self.state_vars = state_vars
         self._set_varmap()
@@ -54,3 +55,9 @@ class Agent(object):
             temp[key] = getattr(self, key)
 
         return temp
+
+    def set_get_env(self, env):
+        self.get_env = lambda: env
+
+    def add_update_callback(self, func):
+        self.update_cbs.append(func)

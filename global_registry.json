@@ -1,5 +1,13 @@
 {
-  "environments": [],
+  "environments": [{
+    "name": "token_dynamic",
+    "file": "endjinn_environment_token_dynamic.py",
+    "classname": "TokenDynamic"
+  }, {
+    "name": "testsim",
+    "file": "endjinn_environment_testsim.py",
+    "classname": "TestSim"
+  }],
   "agents": [
     {
       "name": "buyer",
@@ -12,17 +20,38 @@
       }]
     },
     {
-      "name": "simple_market_transactor",
+      "name": "simple_speculator",
       "actions": [{
           "name": "buy",
-          "lang": "python"
+          "lang": "python",
+          "param_attributes": ["price_key", "buy_amount"]
       }, {
           "name": "sell",
+          "lang": "python",
+          "param_attributes": ["price_key", "sell_amount"]
+      }, {
+          "name": "pass",
           "lang": "python"
       }],
       "state_vars": [{
           "balances": "dict"
-      }]
+      }],
+      "file": "endjinn_agent_simple_speculator.py",
+      "classname": "SimpleSpeculator"
+    },
+    {
+      "name": "staker",
+      "actions": [{
+          "name": "stake",
+          "lang": "python",
+          "param_attributes": ["price_key", "buy_amount"]
+      }, {
+          "name": "unstake",
+          "lang": "python",
+          "param_attributes": ["price_key", "sell_amount"]
+      }],
+      "file": "endjinn_agent_staker.py",
+      "classname": "Staker"
     }
   ],
   "actions": [{
@@ -31,6 +60,17 @@
   }, {
     "name": "sell",
     "file": "endjinn_action_sell.py"
+  }, {
+    "name": "stake",
+    "file": "endjinn_action_stake.py"
+  }, {
+    "name": "unstake",
+    "file": "endjinn_action_unstake.py"
+  }, {
+    "name": "pass",
+    "file": "endjinn_action_pass.py"
   }],
-  "object_packs": []
+  "object_packs": [{
+    "name": "token_pack"
+  }]
 }

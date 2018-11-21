@@ -7,6 +7,7 @@ class Environment(object):
         self.state_vars = None
         self.action_history = [list()]
         self.end = False
+        self.metrics = []
 
     def register_pre_cycle_hook(self, cb):
         if callable(cb):
@@ -28,6 +29,9 @@ class Environment(object):
 
         for cb in self.post_cycle_hooks:
             cb(self)
+
+        for metric in self.metrics:
+            metric.update({'action_history': self.action_history, 'environment_state': self.state})
 
         self.cycles += 1
 

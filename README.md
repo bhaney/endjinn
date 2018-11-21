@@ -8,10 +8,10 @@ https://github.com/MaxwellRebo/endjinn/wiki/FAQ
 ## Components
 
 * Main simulation runner
-* Prototypes for Agents, Actions, and Environments
+* Prototypes for Agents, Actions, Environments, Metrics
 * Built-in ES solver for policy networks
 * (Coming soon) Reporter connectors
-* (Coming soon) Real time viz server
+* (Coming soon) Model persistence on IPFS
 
 ## Quick start guide
 
@@ -31,6 +31,12 @@ copy `local_registry_proto.json`, rename it to `local_registry.json`, and edit i
 to reflect your custom objects.
 
 Wiki entry here: https://github.com/MaxwellRebo/endjinn/wiki/Local-registry-explained
+
+## Test Example
+
+To run the test example, do:
+
+`python runsim.py --file test_endjinnfile.json --verbose`
 
 ## Running Tests
 
@@ -54,7 +60,7 @@ to compile correctly.
 
 ## Overview & Tips
 
-* Main objects are Environment, Agent, and Action.
+* Main objects are Environment and Agent; actions are simple handler functions.
 * Each object can be sub-classed and placed in `registry_objects`
 * To use local files, edit the `local_registry.json` file
 * `local_registry.json` objects will be looked for in `local_registry_objects`. Both the registry file and the directory are ignored

@@ -119,7 +119,10 @@ if __name__ == "__main__":
             agent_registry_entries[agent["name"]]
 
         for act in agent_registry_entries[agent["name"]]["actions"]:
-            action_param_sets[act["name"]] = act["param_attributes"]
+            if "param_attributes" in act:
+                action_param_sets[act["name"]] = act["param_attributes"]
+            else:
+                action_param_sets[act["name"]] = []
 
     all_actions = set(all_actions)
 
@@ -179,6 +182,7 @@ if __name__ == "__main__":
                 for k in range(agent_pops[agent["name"]]):
                     agt = getattr(agent_modules[agent["name"]], agent_registry_entries[agent["name"]]["classname"])(
                         *agent["args"])
+                    agt.set_get_env(env)
                     agt.name = agent["name"]
                     agents.append(agt)
 
